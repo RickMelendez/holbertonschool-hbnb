@@ -9,3 +9,11 @@ class Country:
 
     def get_country_name(self):
         return self.name
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'created_at': self.created_at.isoformat(),
+            'updated_at': self.updated_at.isoformat()
+        }

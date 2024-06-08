@@ -10,3 +10,12 @@ class City:
 
     def get_city_name(self):
         return self.name
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'country_id': self.country_id,
+            'created_at': self.created_at.isoformat(),
+            'updated_at': self.updated_at.isoformat()
+        }

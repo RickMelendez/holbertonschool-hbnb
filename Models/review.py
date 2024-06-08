@@ -15,3 +15,14 @@ class Review:
 
     def get_rating(self):
         return self.rating
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'place_id': self.place_id,
+            'text': self.text,
+            'rating': self.rating,
+            'created_at': self.created_at.isoformat(),
+            'updated_at': self.updated_at.isoformat()
+        }

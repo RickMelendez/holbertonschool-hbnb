@@ -10,3 +10,12 @@ class Amenity:
 
     def get_amenity_details(self):
         return f"Amenity: {self.name} - {self.description}"
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'description': self.description,
+            'created_at': self.created_at.isoformat(),
+            'updated_at': self.updated_at.isoformat()
+        }

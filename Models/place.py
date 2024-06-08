@@ -17,3 +17,17 @@ class Place:
 
     def calculate_price(self, nights):
         return self.price * nights
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'description': self.description,
+            'price': self.price,
+            'location': self.location,
+            'city_id': self.city_id,
+            'owner_id': self.owner_id,
+            'created_at': self.created_at.isoformat(),
+            'updated_at': self.updated_at.isoformat()
+        }
+
