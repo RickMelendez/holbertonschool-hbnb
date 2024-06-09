@@ -34,7 +34,6 @@ class TestDataManager(unittest.TestCase):
         deleted_user = self.data_manager.get(user.id, 'User')
         self.assertIsNone(deleted_user)
 
-    # Additional tests for Place, Review, Amenity, Country, City can be added similarly
 
 if __name__ == '__main__':
     unittest.main()
