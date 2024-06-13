@@ -1,21 +1,13 @@
-from datetime import datetime
+from .base_model import BaseModel
 
-class Amenity:
-    def __init__(self, id, name, description):
-        self.id = id
+class Amenity(BaseModel):
+    def __init__(self, name, **kwargs):
+        super().__init__(**kwargs)
         self.name = name
-        self.description = description
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
-
-    def get_amenity_details(self):
-        return f"Amenity: {self.name} - {self.description}"
 
     def to_dict(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-            'description': self.description,
-            'created_at': self.created_at.isoformat(),
-            'updated_at': self.updated_at.isoformat()
-        }
+        data = super().to_dict()
+        data.update({
+            'name': self.name
+        })
+        return data

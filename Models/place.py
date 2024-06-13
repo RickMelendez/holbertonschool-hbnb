@@ -1,33 +1,33 @@
-from datetime import datetime
+from .base_model import BaseModel
 
-class Place:
-    def __init__(self, id, name, description, price, location, city_id, owner_id):
-        self.id = id
+class Place(BaseModel):
+    def __init__(self, name, description, address, city_id, latitude, longitude, host_id, number_of_rooms, number_of_bathrooms, price_per_night, max_guests, **kwargs):
+        super().__init__(**kwargs)
         self.name = name
         self.description = description
-        self.price = price
-        self.location = location
+        self.address = address
         self.city_id = city_id
-        self.owner_id = owner_id
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
-
-    def get_details(self):
-        return f"{self.name}: {self.description} at {self.location}"
-
-    def calculate_price(self, nights):
-        return self.price * nights
+        self.latitude = latitude
+        self.longitude = longitude
+        self.host_id = host_id
+        self.number_of_rooms = number_of_rooms
+        self.number_of_bathrooms = number_of_bathrooms
+        self.price_per_night = price_per_night
+        self.max_guests = max_guests
 
     def to_dict(self):
-        return {
-            'id': self.id,
+        data = super().to_dict()
+        data.update({
             'name': self.name,
             'description': self.description,
-            'price': self.price,
-            'location': self.location,
+            'address': self.address,
             'city_id': self.city_id,
-            'owner_id': self.owner_id,
-            'created_at': self.created_at.isoformat(),
-            'updated_at': self.updated_at.isoformat()
-        }
-
+            'latitude': self.latitude,
+            'longitude': self.longitude,
+            'host_id': self.host_id,
+            'number_of_rooms': self.number_of_rooms,
+            'number_of_bathrooms': self.number_of_bathrooms,
+            'price_per_night': self.price_per_night,
+            'max_guests': self.max_guests
+        })
+        return data
