@@ -15,3 +15,7 @@ def create_app():
     app.register_blueprint(country_api, url_prefix='/api/countries')
     app.register_blueprint(city_api, url_prefix='/api/cities')
     return app
+
+if __name__ == '__main__':
+    app = create_app()
+    app.run(debug=True)
