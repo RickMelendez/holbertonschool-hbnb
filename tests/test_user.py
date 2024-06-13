@@ -1,20 +1,20 @@
 import unittest
-from models.user.py import User
+from models.user import User
 
 class TestUser(unittest.TestCase):
-    def setUp(self):
-        self.user = User(1, "John", "Doe", "john.doe@example.com", "password123")
+    def test_user_creation(self):
+        user = User(email="test@example.com", password="123456", first_name="Rick", last_name="Melendez")
+        self.assertEqual(user.email, "test@example.com")
+        self.assertEqual(user.first_name, "Rick")
+        self.assertEqual(user.last_name, "Melendez")
+        self.assertIsNotNone(user.created_at)
+        self.assertIsNotNone(user.updated_at)
 
-    def test_full_name(self):
-        self.assertEqual(self.user.get_full_name(), "John Doe")
+    def test_user_save(self):
+        user = User(email="test@example.com", password="123456", first_name="Rick", last_name="Melendez")
+        old_updated_at = user.updated_at
+        user.save()
+        self.assertNotEqual(user.updated_at, old_updated_at)
 
-    def test_authenticate(self):
-        self.assertTrue(self.user.authenticate("password123"))
-        self.assertFalse(self.user.authenticate("wrongpassword"))
-
-    def test_email_uniqueness(self):
-        user2 = User(2, "Jane", "Doe", "john.doe@example.com", "password123")
-        self.assertNotEqual(hash(self.user), hash(user2))
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

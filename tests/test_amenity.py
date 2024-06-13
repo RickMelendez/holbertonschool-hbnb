@@ -2,11 +2,17 @@ import unittest
 from models.amenity import Amenity
 
 class TestAmenity(unittest.TestCase):
-    def setUp(self):
-        self.amenity = Amenity(1, "WiFi", "High-speed wireless internet")
+    def test_amenity_creation(self):
+        amenity = Amenity(name="WiFi")
+        self.assertEqual(amenity.name, "WiFi")
+        self.assertIsNotNone(amenity.created_at)
+        self.assertIsNotNone(amenity.updated_at)
 
-    def test_get_amenity_details(self):
-        self.assertEqual(self.amenity.get_amenity_details(), "Amenity: WiFi - High-speed wireless internet")
+    def test_amenity_save(self):
+        amenity = Amenity(name="WiFi")
+        old_updated_at = amenity.updated_at
+        amenity.save()
+        self.assertNotEqual(amenity.updated_at, old_updated_at)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()
