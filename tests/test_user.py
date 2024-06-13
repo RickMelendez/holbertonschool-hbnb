@@ -1,20 +1,50 @@
 import unittest
+from flask import Flask
+from api.v1.views.users import user_blueprint
+from models.data_manager import DataManager
 from models.user import User
 
-class TestUser(unittest.TestCase):
-    def test_user_creation(self):
-        user = User(email="test@example.com", password="123456", first_name="Rick", last_name="Melendez")
-        self.assertEqual(user.email, "test@example.com")
-        self.assertEqual(user.first_name, "Rick")
-        self.assertEqual(user.last_name, "Melendez")
-        self.assertIsNotNone(user.created_at)
-        self.assertIsNotNone(user.updated_at)
+class TestUserEndpoints(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        app = Flask(__name__)
+        app.register_blueprint(user_blueprint)
+        cls.app = app.test_client()
+        cls.data_manager = DataManager('test_data.json')
 
-    def test_user_save(self):
-        user = User(email="test@example.com", password="123456", first_name="Rick", last_name="Melendez")
-        old_updated_at = user.updated_at
-        user.save()
-        self.assertNotEqual(user.updated_at, old_updated_at)
+    @classmethod
+    def tearDownClass(cls):
+        cls.data_manager.clear_data()
+
+    def test_create_user(self):
+        response = self.app.post('/api/v1/users', json={
+            'email': 'test@example.com',
+            'first_name': 'Rick',
+            'last_name': 'Melendez'
+        })
+        self.assertEqual(response.status_code, 201)
+
+    def test_get_users(self):
+        response = self.app.get('/api/v1/users')
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_user(self):
+        user = User(email='test@example.com', first_name='Rick', last_name='Melendez')
+        self.data_manager.save(user)
+        response = self.app.get(f'/api/v1/users/{user.id}')
+        self.assertEqual(response.status_code, 200)
+
+    def test_update_user(self):
+        user = User(email='test@example.com', first_name='Rick', last_name='Melendez')
+        self.data_manager.save(user)
+        response = self.app.put(f'/api/v1/users/{user.id}', json={'first_name': 'Rick'})
+        self.assertEqual(response.status_code, 200)
+
+    def test_delete_user(self):
+        user = User(email='test@example.com', first_name='Rick', last_name='Melendez')
+        self.data_manager.save(user)
+        response = self.app.delete(f'/api/v1/users/{user.id}')
+        self.assertEqual(response.status_code, 204)
 
 if __name__ == '__main__':
     unittest.main()
