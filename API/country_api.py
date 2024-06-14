@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify
-from data_manager import DataManager
+from Persistence.data_manager import DataManager
 
 country_api = Blueprint('country_api', __name__)
 data_manager = DataManager()  # Initialize DataManager

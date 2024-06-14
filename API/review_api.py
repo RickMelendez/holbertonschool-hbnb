@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
-from models.review import Review
-from data_manager import DataManager
+from Models.review import Review
+from Persistence.data_manager import DataManager
 
 review_api = Blueprint('review_api', __name__)
 data_manager = DataManager()  # Initialize DataManager

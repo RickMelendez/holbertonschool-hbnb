@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
-from models.user import User
-from data_manager import DataManager
+from Models.user import User
+from Persistence.data_manager import DataManager
 
 app = Flask(__name__)
 data_manager = DataManager()  # Initialize DataManager

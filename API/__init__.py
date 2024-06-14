@@ -1,10 +1,10 @@
 from flask import Flask
-from api.user_api import user_api
-from api.place_api import place_api
-from api.review_api import review_api
-from api.amenity_api import amenity_api
-from api.country_api import country_api
-from api.city_api import city_api
+from API.user_api import user_api
+from API.place_api import place_api
+from API.review_api import review_api
+from API.amenity_api import amenity_api
+from API.country_api import country_api
+from API.city_api import city_api
 
 def create_app():
     app = Flask(__name__)

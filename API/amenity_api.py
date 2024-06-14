@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
-from models.amenity import Amenity
-from data_manager import DataManager
+from Models.amenity import Amenity
+from Persistence.data_manager import DataManager
 
 amenity_api = Blueprint('amenity_api', __name__)
 data_manager = DataManager()  # Initialize DataManager

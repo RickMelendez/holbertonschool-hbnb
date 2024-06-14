@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
-from models.place import Place
-from data_manager import DataManager
+from Models.place import Place
+from Persistence.data_manager import DataManager
 
 place_api = Blueprint('place_api', __name__)
 data_manager = DataManager()  # Initialize DataManager
