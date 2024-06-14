@@ -16,9 +16,6 @@ HBnB is a web application developed as part of the Holberton School curriculum. 
 
 Contributions are welcome! Please fork the repository and create a pull request with your changes.
 
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
 
 ## Acknowledgements
 
