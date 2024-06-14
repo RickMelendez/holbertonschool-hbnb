@@ -1,13 +1,13 @@
-from flask import Flask, request, jsonify
+from flask import Blueprint, Flask, request, jsonify
 from Models.user import User
 from Persistence.data_manager import DataManager
 
-app = Flask(__name__)
+user_blueprint = Blueprint('user', __name__)
 data_manager = DataManager()  # Initialize DataManager
 
 
 # Endpoint to create a new user
-@app.route('/users', methods=['POST'])
+@user_blueprint.route('/users', methods=['POST'])
 def create_user():
     data = request.json
     if not all(key in data for key in ['email', 'first_name', 'last_name']):
@@ -28,14 +28,14 @@ def create_user():
 
 
 # Endpoint to retrieve all users
-@app.route('/users', methods=['GET'])
+@user_blueprint.route('/users', methods=['GET'])
 def get_all_users():
     users = data_manager.get_all_users()
     return jsonify({'users': [user.to_dict() for user in users]}), 200
 
 
 # Endpoint to retrieve a specific user
-@app.route('/users/<user_id>', methods=['GET'])
+@user_blueprint.route('/users/<user_id>', methods=['GET'])
 def get_user(user_id):
     user = data_manager.get_user(user_id)
     if not user:
@@ -44,7 +44,7 @@ def get_user(user_id):
 
 
 # Endpoint to update a user
-@app.route('/users/<user_id>', methods=['PUT'])
+@user_blueprint.route('/users/<user_id>', methods=['PUT'])
 def update_user(user_id):
     user = data_manager.get_user(user_id)
     if not user:
@@ -71,7 +71,7 @@ def update_user(user_id):
 
 
 # Endpoint to delete a user
-@app.route('/users/<user_id>', methods=['DELETE'])
+@user_blueprint.route('/users/<user_id>', methods=['DELETE'])
 def delete_user(user_id):
     user = data_manager.get_user(user_id)
     if not user:
@@ -87,4 +87,6 @@ def is_valid_email(email):
 
 
 if __name__ == '__main__':
+    app = Flask(__name__)
+    app.register_blueprint(user_blueprint)
     app.run(debug=True)
