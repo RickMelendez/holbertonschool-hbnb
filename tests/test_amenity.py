@@ -1,6 +1,3 @@
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import unittest
 import os
 import sys
@@ -8,7 +5,7 @@ import sys
 # Ensure the `models` package can be found
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from models.amenity import Amenity
+from Models.amenity import Amenity
 
 class TestAmenity(unittest.TestCase):
 
