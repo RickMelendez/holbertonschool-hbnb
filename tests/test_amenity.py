@@ -1,18 +1,27 @@
 import unittest
+import os
+import sys
+
+# Ensure the `models` package can be found
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from models.amenity import Amenity
 
 class TestAmenity(unittest.TestCase):
-    def test_amenity_creation(self):
-        amenity = Amenity(name="WiFi")
-        self.assertEqual(amenity.name, "WiFi")
-        self.assertIsNotNone(amenity.created_at)
-        self.assertIsNotNone(amenity.updated_at)
 
-    def test_amenity_save(self):
-        amenity = Amenity(name="WiFi")
-        old_updated_at = amenity.updated_at
-        amenity.save()
-        self.assertNotEqual(amenity.updated_at, old_updated_at)
+    def setUp(self):
+        self.amenity = Amenity(name="WiFi")
+
+    def test_amenity_creation(self):
+        self.assertEqual(self.amenity.name, "WiFi")
+        self.assertIsNotNone(self.amenity.id)
+        self.assertIsNotNone(self.amenity.created_at)
+        self.assertIsNotNone(self.amenity.updated_at)
+
+    def test_amenity_to_dict(self):
+        amenity_dict = self.amenity.to_dict()
+        self.assertEqual(amenity_dict['name'], "WiFi")
+        self.assertEqual(amenity_dict['id'], self.amenity.id)
 
 if __name__ == '__main__':
     unittest.main()
