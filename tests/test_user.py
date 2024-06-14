@@ -1,8 +1,8 @@
 import unittest
 from flask import Flask
-from api.v1.views.users import user_blueprint
-from models.data_manager import DataManager
-from models.user import User
+from API.user_api import user_blueprint
+from Persistence.data_manager import DataManager
+from Models.user import User
 
 class TestUserEndpoints(unittest.TestCase):
     @classmethod

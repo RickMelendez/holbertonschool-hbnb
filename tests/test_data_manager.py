@@ -3,13 +3,13 @@
 import unittest
 import os
 import json
-from models.data_manager import DataManager
-from models.user import User
-from models.place import Place
-from models.review import Review
-from models.amenity import Amenity
-from models.city import City
-from models.country import Country
+from Persistence.data_manager import DataManager
+from Models.user import User
+from Models.place import Place
+from Models.review import Review
+from Models.amenity import Amenity
+from Models.city import City
+from Models.country import Country
 
 class TestDataManager(unittest.TestCase):
     @classmethod

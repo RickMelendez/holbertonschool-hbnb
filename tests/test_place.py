@@ -1,5 +1,5 @@
 import unittest
-from models.place import Place
+from Models.place import Place
 
 class TestPlace(unittest.TestCase):
     def test_place_creation(self):
