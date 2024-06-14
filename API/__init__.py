@@ -1,5 +1,5 @@
 from flask import Flask
-from API.user_api import user_blueprint as user_api
+from API.user_api import user_blueprint
 from API.place_api import place_api
 from API.review_api import review_api
 from API.amenity_api import amenity_api
