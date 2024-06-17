@@ -11,7 +11,10 @@ class DataManager:
         self.places = {}
         self.reviews = {}
         self.amenities = {}
-        self.countries = {}
+        self.countries = {
+            "PR": Country(code="PR", name="Puerto Rico"),
+            "SJ": Country(code="SJ", name="San Juan")
+        }
         self.cities = {}
 
     def save(self, entity):
@@ -39,6 +42,8 @@ class DataManager:
             return self.amenities.get(entity_id)
         elif entity_type == 'city':
             return self.cities.get(entity_id)
+        elif entity_type == 'country':
+            return self.countries.get(entity_id)
 
     def update(self, entity):
         self.save(entity)
@@ -54,6 +59,8 @@ class DataManager:
             self.amenities.pop(entity_id, None)
         elif entity_type == 'city':
             self.cities.pop(entity_id, None)
+        elif entity_type == 'country':
+            self.countries.pop(entity_id, None)
 
     def get_user_by_email(self, email):
         for user in self.users.values():
