@@ -10,12 +10,12 @@ from API.user_api import user_ns
 app = Flask(__name__)
 api = Api(app, version='1.0', title='HBnB API', description='HBnB application')
 
+api.add_namespace(user_ns)
+api.add_namespace(place_ns)
 api.add_namespace(country_ns)
 api.add_namespace(city_ns)
-api.add_namespace(place_ns)
-api.add_namespace(review_ns)
 api.add_namespace(amenity_ns)
-api.add_namespace(user_ns)
+api.add_namespace(review_ns)
 
 if __name__ == '__main__':
     app.run(debug=True)
