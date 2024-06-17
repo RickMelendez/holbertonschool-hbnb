@@ -8,7 +8,7 @@ from API.amenity_api import amenity_ns
 from API.user_api import user_ns
 
 app = Flask(__name__)
-api = Api(app, version='1.0', title='HBnB API', description='HBnB application')
+api = Api(app, version='1.0', title='Welcome To HBnB API', description='HBnB application')
 
 api.add_namespace(user_ns)
 api.add_namespace(place_ns)
