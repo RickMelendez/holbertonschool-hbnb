@@ -1,54 +1,32 @@
-from flask import Blueprint, request, jsonify
+from flask_restx import Resource, fields
+
+from flask import request
+
 from Models.review import Review
 from Persistence.data_manager import DataManager
+from flask_restx import Namespace
 
-review_api = Blueprint('review_api', __name__)
+review_ns = Namespace('review', description='Review operations')
 data_manager = DataManager()  # Initialize DataManager
 
-@review_api.route('/<place_id>', methods=['POST'])
-def create_review(place_id):
-    data = request.json
-    if not all(key in data for key in ['user_id', 'rating', 'comment']):
-        return jsonify({'error': 'Missing required fields'}), 400
+review_model = review_ns.model('Review', {
+    'id': fields.Integer(readOnly=True, description='The review unique identifier'),
+    'place_id': fields.Integer(required=True, description='ID of the place reviewed'),
+    'user_id': fields.Integer(required=True, description='ID of the user who made the review'),
+    'rating': fields.Float(required=True, description='Rating of the review'),
+    'comment': fields.String(description='Comment of the review')
+})
 
-    review = Review(place_id=place_id, **data)
-    data_manager.save(review)
-    return jsonify({'message': 'Review created successfully', 'review': review.to_dict()}), 201
+@review_ns.route('/<int:place_id>')
+@review_ns.doc(params={'place_id': 'ID of the place to create a review for'})
+class ReviewResource(Resource):
+    @review_ns.doc('create_review')
+    @review_ns.expect(review_model)
+    @review_ns.marshal_with(review_model, code=201)
+    def post(self, place_id):
+        """Create a new review for a place"""
+        data = request.json
+        if not all(key in data for key in ['user_id', 'rating', 'comment']):
+            return {'error': 'Missing required fields'}, 400
 
-@review_api.route('/users/<user_id>', methods=['GET'])
-def get_user_reviews(user_id):
-    reviews = data_manager.get_reviews_by_user(user_id)
-    return jsonify({'reviews': [review.to_dict() for review in reviews]}), 200
-
-@review_api.route('/places/<place_id>', methods=['GET'])
-def get_place_reviews(place_id):
-    reviews = data_manager.get_reviews_by_place(place_id)
-    return jsonify({'reviews': [review.to_dict() for review in reviews]}), 200
-
-@review_api.route('/<review_id>', methods=['GET'])
-def get_review(review_id):
-    review = data_manager.get(review_id, 'review')
-    if not review:
-        return jsonify({'error': 'Review not found'}), 404
-    return jsonify(review.to_dict()), 200
-
-@review_api.route('/<review_id>', methods=['PUT'])
-def update_review(review_id):
-    review = data_manager.get(review_id, 'review')
-    if not review:
-        return jsonify({'error': 'Review not found'}), 404
-
-    data = request.json
-    for key, value in data.items():
-        setattr(review, key, value)
-    data_manager.update(review)
-    return jsonify({'message': 'Review updated successfully', 'review': review.to_dict()}), 200
-
-@review_api.route('/<review_id>', methods=['DELETE'])
-def delete_review(review_id):
-    review = data_manager.get(review_id, 'review')
-    if not review:
-        return jsonify({'error': 'Review not found'}), 404
-
-    data_manager.delete(review_id, 'review')
-    return jsonify({'message': 'Review deleted successfully'}), 204
+        

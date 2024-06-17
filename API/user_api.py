@@ -78,4 +78,8 @@ class UserResource(Resource):
             return {'error': 'User not found'}, 404
 
         data_manager.delete(user)
+<<<<<<< HEAD
         return '', 204
+=======
+        return '', 204
+>>>>>>> 1d740c9bd597e289e9182cb17366815440f76a42
