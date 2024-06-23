@@ -47,7 +47,7 @@ class UserResource(Resource):
     @user_ns.marshal_with(user_model)
     def get(self, user_id):
         """Get user by ID"""
-        user = data_manager.get_user(user_id)
+        user = data_manager.get(user_id, 'user')
         if not user:
             return {'error': 'User not found'}, 404
         return user
@@ -57,7 +57,7 @@ class UserResource(Resource):
     @user_ns.marshal_with(user_model)
     def put(self, user_id):
         """Update a user"""
-        user = data_manager.get_user(user_id)
+        user = data_manager.get(user_id, 'user')
         if not user:
             return {'error': 'User not found'}, 404
 
@@ -66,16 +66,16 @@ class UserResource(Resource):
         if email and data_manager.get_user_by_email(email) and data_manager.get_user_by_email(email).id != user_id:
             return {'error': 'Email already exists'}, 409
 
-        user.update(data)
+        user.update(data)  # Ensure your User class has an update method
         data_manager.update(user)
         return user
 
     @user_ns.doc('delete_user')
     def delete(self, user_id):
         """Delete a user"""
-        user = data_manager.get_user(user_id)
+        user = data_manager.get(user_id, 'user')
         if not user:
             return {'error': 'User not found'}, 404
 
-        data_manager.delete(user)
+        data_manager.delete(user_id, 'user')
         return '', 204
