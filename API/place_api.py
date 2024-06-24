@@ -1,8 +1,7 @@
-from flask_restx import Resource, fields
-from flask import request
+from flask_restx import Namespace, Resource, fields
+from flask import request, jsonify
 from Models.place import Place
 from Persistence.data_manager import DataManager
-from flask_restx import Namespace
 
 place_ns = Namespace('place', description='Place operations')
 data_manager = DataManager()  # Initialize DataManager
