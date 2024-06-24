@@ -1,9 +1,9 @@
-from flask import request
+from flask import request, jsonify
 from flask_restx import Namespace, Resource, fields
 from Persistence.data_manager import DataManager
 
 city_ns = Namespace('city', description='City operations')
-data_manager = DataManager()  # Assuming DataManager handles city operations
+data_manager = DataManager()
 
 city_model = city_ns.model('City', {
     'name': fields.String(required=True, description='Name of the city'),
@@ -21,7 +21,7 @@ class CityListResource(Resource):
         if not all(key in data for key in ['name', 'country_code']):
             return {'error': 'Missing required fields'}, 400
 
-        city = data_manager.save_city(data['name'], data['country_code'])  # Assuming save_city method in DataManager
+        city = data_manager.save_city(data['name'], data['country_code'])
         return city, 201
 
     @city_ns.doc('get_all_cities')
@@ -38,7 +38,7 @@ class CityResource(Resource):
     @city_ns.marshal_with(city_model)
     def get(self, city_id):
         """Get a city by ID"""
-        city = data_manager.get_city(city_id)  # Assuming get_city method in DataManager
+        city = data_manager.get_city(city_id)
         if not city:
             return {'error': 'City not found'}, 404
         return city
@@ -57,7 +57,7 @@ class CityResource(Resource):
             city.name = data['name']
         if 'country_code' in data:
             city.country_code = data['country_code']
-        data_manager.update_city(city)  # Assuming update_city method in DataManager
+        data_manager.update_city(city)
         return city
 
     @city_ns.doc('delete_city')
@@ -67,5 +67,5 @@ class CityResource(Resource):
         if not city:
             return {'error': 'City not found'}, 404
 
-        data_manager.delete_city(city_id)  # Assuming delete_city method in DataManager
+        data_manager.delete_city(city_id)
         return '', 204

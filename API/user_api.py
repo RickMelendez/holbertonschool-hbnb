@@ -1,13 +1,15 @@
-from flask_restx import Namespace, Resource, fields
 from flask import request
-from Models.user import User
-from Persistence.data_manager import DataManager
+from flask_restx import Namespace, Resource, fields
 from datetime import datetime
 import re
+from Models.user import User
+from Persistence.data_manager import DataManager
 
+# Initialize Namespace and DataManager
 user_ns = Namespace('users', description='User operations')
 data_manager = DataManager()
 
+# Define user model for serialization
 user_model = user_ns.model('User', {
     'id': fields.Integer(readOnly=True, description='The user unique identifier'),
     'email': fields.String(required=True, description='User email address'),
@@ -17,13 +19,13 @@ user_model = user_ns.model('User', {
     'updated_at': fields.DateTime(readOnly=True, description='The user update timestamp')
 })
 
+# Function to validate email format
 def validate_email(email):
-    """Validate the email format."""
     regex = r'^\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
     return re.match(regex, email)
 
+# Function to validate user data
 def validate_user_data(data):
-    """Validate the user data."""
     if 'email' not in data or not validate_email(data['email']):
         return False, 'Invalid or missing email'
     if 'first_name' not in data or not isinstance(data['first_name'], str) or not data['first_name'].strip():
@@ -31,6 +33,8 @@ def validate_user_data(data):
     if 'last_name' not in data or not isinstance(data['last_name'], str) or not data['last_name'].strip():
         return False, 'Invalid or missing last name'
     return True, None
+
+# Define routes and resource classes
 
 @user_ns.route('/')
 class UserList(Resource):
@@ -105,7 +109,3 @@ class UserResource(Resource):
 
         data_manager.delete(user)
         return '', 204
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
