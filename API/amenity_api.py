@@ -1,10 +1,7 @@
-from flask_restx import Resource, fields
-
-from flask import request
-
-from Models.amenity import Amenity
+from flask import request, jsonify
+from flask_restx import Namespace, Resource, fields
 from Persistence.data_manager import DataManager
-from flask_restx import Namespace
+from Models.amenity import Amenity
 
 amenity_ns = Namespace('amenity', description='Amenity operations')
 data_manager = DataManager()  # Initialize DataManager

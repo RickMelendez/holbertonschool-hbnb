@@ -1,13 +1,9 @@
-from flask_restx import Resource, fields
-
-from flask import Blueprint, request, jsonify
-
+from flask_restx import Namespace, Resource, fields
+from flask import request, jsonify
 from Models.place import Place
 from Persistence.data_manager import DataManager
-from flask_restx import Namespace
 
 place_ns = Namespace('place', description='Place operations')
-place_api = Blueprint('place_api', __name__)
 data_manager = DataManager()  # Initialize DataManager
 
 place_model = place_ns.model('Place', {
